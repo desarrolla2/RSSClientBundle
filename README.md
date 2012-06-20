@@ -36,7 +36,7 @@ Service for provide RSS client in your website, you can automatically add conten
 
 Add to your `/deps` file :
 
-```
+``` deps
 [RSSClientBundle]
     git=git@github.com:desarrolla2/RSSClientBundle.git
     target=/bundles/Desarrolla2/Bundle/RSSClientBundle
@@ -94,6 +94,7 @@ class NewsController extends Controller
     }
 
 }
+```
 
 ### In your view
 
@@ -115,7 +116,7 @@ Render the content for your users
         {% endfor %}    
     </section>
 {% endblock %}
-
+```
 
 ## Coming soon
 
