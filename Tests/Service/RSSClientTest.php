@@ -1,5 +1,18 @@
 <?php
 
+/*
+ * This file is part of the symfony-madrid package.
+ * 
+ * Short description   
+ *
+ * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
+ * @date Jun 19, 2012, 11:18:58 PM
+ * @file RSSClientTest.php , UTF-8
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Desarrolla2\Bundle\RSSClientBundle\Test\Service;
 
 use Desarrolla2\Bundle\RSSClientBundle\Service\RSSClient;
