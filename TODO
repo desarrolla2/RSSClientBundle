@@ -1,0 +1,5 @@
+1.- El cliente no previene XSS
+2.- Crear test para los diferentes tipos de formato de RSS
+3.- Lanzar eventos de errores.
+4.- Habilitar cache APC o menchached, quizá con algún proxy de servicio de cache.
+~                                                                                      
