@@ -1,13 +1,12 @@
-# Bootstrap
-app/bootstrap*
-
-# Symfony directories
-vendor/*
-*/logs/*
-*/cache/*
-web/uploads/*
-web/bundles/*
-
 # Configuration files
-app/config/parameters.ini
 /nbproject/*
+
+
+.DS_Store
+Thumbs.db
+/vendor
+*.swp
+*.swo
+*.*~
+.vimrc
+.local.*.vimrc
