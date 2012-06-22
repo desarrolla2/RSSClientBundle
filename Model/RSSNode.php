@@ -36,18 +36,40 @@ class RSSNode
      */
     public function __construct($options = array())
     {
-        if (isset($options['title'])) {
-            $this->setTitle($options['title']);
+        $this->setOptions($options);
+    }
+
+    /**
+     *
+     * @param array $options 
+     */
+    public function setOptions($options = array())
+    {
+        if (is_array($options)) {
+            if (isset($options['title'])) {
+                $this->setTitle($options['title']);
+            }
+            if (isset($options['desc'])) {
+                $this->setDesc($options['desc']);
+            }
+            if (isset($options['link'])) {
+                $this->setLink($options['link']);
+            }
+            if (isset($options['date'])) {
+                $this->setPubDate($options['date']);
+            }
         }
-        if (isset($options['desc'])) {
-            $this->setDesc($options['desc']);
-        }
-        if (isset($options['link'])) {
-            $this->setLink($options['link']);
-        }
-        if (isset($options['date'])) {
-            $this->setPubDate($options['date']);
-        }
+    }
+
+    /**
+     * Clean text for XSS atacks
+     * 
+     * @param string $string
+     * @return string $string 
+     */
+    protected function doClean($string)
+    {
+        return strip_tags((string) $string);
     }
 
     /**
@@ -56,7 +78,7 @@ class RSSNode
      */
     public function setTitle($title)
     {
-        $this->title = (string) $title;
+        $this->title = $this->doClean($title);
     }
 
     /**
@@ -74,7 +96,7 @@ class RSSNode
      */
     public function setDesc($desc)
     {
-        $this->desc = (string) $desc;
+        $this->desc = $this->doClean($desc);
     }
 
     /**
@@ -92,7 +114,7 @@ class RSSNode
      */
     public function setLink($link)
     {
-        $this->link = (string) $link;
+        $this->link = $this->doClean($link);
     }
 
     /**
@@ -111,10 +133,14 @@ class RSSNode
     public function setPubDate($date)
     {
         try {
-            $this->pubDate = new DateTime($date);
+            if (strtotime($date)) {
+                $this->pubDate = new DateTime($this->doClean($date));
+            } else {
+                $this->pubDate = new DateTime('-1 year');
+            }
         }
         catch (Exception $e) {
-            // ..
+            $this->pubDate = new DateTime('-1 year');
         }
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  * This file is part of the symfony-madrid package.
  * 
@@ -13,7 +14,11 @@
  * file that was distributed with this source code.
  */
 
+
 namespace Desarrolla2\Bundle\RSSClientBundle\Test\Service;
+
+
+require_once '../Service/RSSClient.php';
 
 use Desarrolla2\Bundle\RSSClientBundle\Service\RSSClient;
 
@@ -79,16 +84,9 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $this->client->countNodes());
     }
 
-    /**
-     * @test
-     */
-//    public function testDump()
-//    {
-//        $this->client->addFeed('http://saforas.wordpress.com/feed/');
-//        $this->client->fetch();
-//        $this->client->sort();
-//        $this->client->dump();
-//        $this->assertTrue(true);
-//    }
+    public function getDataForXSS(){
+        
+            
+    }
 
 }

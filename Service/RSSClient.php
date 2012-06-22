@@ -22,6 +22,7 @@ class RSSClient
 
     protected $feeds = array();
     protected $nodes = array();
+    protected $apcKey = 'd2.client.rss.nodes';
 
     /**
      * @param array $feeds 
@@ -111,31 +112,71 @@ class RSSClient
      */
     public function fetch()
     {
-        foreach ($this->feeds as $feed) {
-            $feed = @file_get_contents($feed);
-            if ($feed) {
-                $DOMDocument = new \DOMDocument();
-                $DOMDocument->strictErrorChecking = false;
-                if ($DOMDocument->loadXML($feed)) {
-                    $nodes = $DOMDocument->getElementsByTagName('item');
-                    foreach ($nodes as $node) {
-                        $this->addNode(
-                                new RSSNode(
-                                        array(
-                                            'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
-                                            'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                                            'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
-                                            'date'  => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+        if ($nodes = $this->getCache()) {
+            $this->nodes = $nodes;
+        } else {
+            foreach ($this->feeds as $feed) {
+                $feed = @file_get_contents($feed);
+                if ($feed) {
+                    $DOMDocument = new \DOMDocument();
+                    $DOMDocument->strictErrorChecking = false;
+                    if ($DOMDocument->loadXML($feed)) {
+                        $nodes = $DOMDocument->getElementsByTagName('item');
+                        foreach ($nodes as $node) {
+                            try {
+                                $this->addNode(
+                                        new RSSNode(
+                                                array(
+                                                    'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+                                                    'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
+                                                    'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+                                                    'date'  => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+                                                )
                                         )
-                                )
-                        );
+                                );
+                            }
+                            catch (Exception $e) {
+                                // ..  
+                            }
+                        }
                     }
                 }
             }
+            $this->setCache();
         }
         $this->sort();
 
         return $this->countNodes();
+    }
+
+    /**
+     * Set APC cache 
+     */
+    protected function setCache()
+    {
+        if (extension_loaded('apc')) {
+            if (function_exists('apc_exists')) {
+                if (apc_exists($this->apcKey)) {
+                    apc_store($this->apcKey, $this->nodes, 3600);
+                }
+            }
+        }
+    }
+
+    /**
+     * Retrieves from APC cache
+     * @return boolean 
+     */
+    protected function getCache()
+    {
+        if (extension_loaded('apc')) {
+            if (function_exists('apc_store')) {
+                if (apc_exists($this->apcKey)) {
+                    return apc_fetch($this->apcKey);
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -169,14 +210,4 @@ class RSSClient
             }
         }
     }
-
-    /**
-     * 
-     */
-    public function dump()
-    {
-        var_dump($this->feeds);
-        var_dump($this->nodes);
-    }
-
 }
