@@ -1,2 +1,3 @@
 1.- Lanzar eventos de errores.
 2.- Permitir configurar la cache, quizá a través de un servicio de proxy y adaptadores.
+3.- Añadir esta caracteristica al propio servicio de bundle. {{ feed.desc | replace({'&lt;':'<', '&gt;':'>'}) | striptags | truncate(420) | raw }}
