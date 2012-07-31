@@ -196,7 +196,7 @@ class RSSClient
         }
         return $response;
     }
-
+    
     public function sort()
     {
         $countNodes = $this->countNodes();
