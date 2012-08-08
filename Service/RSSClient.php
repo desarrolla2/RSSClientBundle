@@ -50,6 +50,16 @@ class RSSClient
 
     /**
      *
+     * @param string $feed 
+     */
+    public function setFeed($feed)
+    {
+        $this->clearFeeds();
+        $this->addFeed($feed);
+    }
+
+    /**
+     *
      * @param array $feeds 
      */
     public function setFeeds($feeds)
@@ -196,7 +206,7 @@ class RSSClient
         }
         return $response;
     }
-    
+
     public function sort()
     {
         $countNodes = $this->countNodes();
@@ -210,4 +220,5 @@ class RSSClient
             }
         }
     }
+
 }

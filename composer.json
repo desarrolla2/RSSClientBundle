@@ -6,17 +6,19 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [
-        {
-            "name": "Daniel González",
-            "homepage": "http://desarrolla2.com/"
-        }
+    {
+        "name": "Daniel González",
+        "homepage": "http://desarrolla2.com/"
+    }
     ],
     "require": {
         "php": ">=5.3.2",
         "symfony/framework-bundle": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Desarrolla2\\Bundle\\RSSClientBundle": "" }
+        "psr-0": {
+            "Desarrolla2\\Bundle\\RSSClientBundle": ""
+        }
     },
     "target-dir": "Desarrolla2/Bundle/RSSClientBundle"
 }
