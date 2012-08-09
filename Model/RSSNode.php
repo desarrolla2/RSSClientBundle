@@ -20,8 +20,19 @@ use DateTime;
 class RSSNode
 {
 
+    /**
+     * @var string
+     */
     protected $title = null;
+
+    /**
+     * @var string
+     */
     protected $desc = null;
+
+    /**
+     * @var string
+     */
     protected $link = null;
 
     /**

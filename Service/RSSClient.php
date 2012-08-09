@@ -16,20 +16,51 @@
 namespace Desarrolla2\Bundle\RSSClientBundle\Service;
 
 use Desarrolla2\Bundle\RSSClientBundle\Model\RSSNode;
+use Desarrolla2\Bundle\RSSClientBundle\Model\RSSClientInterface;
 
-class RSSClient
+class RSSClient implements RSSClientInterface
 {
 
+    /**
+     * @var array 
+     */
     protected $feeds = array();
-    protected $nodes = array();
-    protected $apcKey = 'd2.client.rss.nodes';
 
     /**
-     * @param array $feeds 
+     * @var array 
+     */
+    protected $nodes = array();
+
+    /**
+     * @var string 
+     */
+
+    const APCKEY = 'd2.client.rss.nodes';
+
+    /**
+     * @var string 
+     */
+    protected $apcHash = null;
+
+    /**
+     * @param array $feeds
      */
     public function __construct($feeds = array())
     {
         $this->setFeeds($feeds);
+    }
+
+    /**
+     * Generate a unique hash for apc
+     * 
+     * @return string 
+     */
+    protected function getApcKey()
+    {
+        if (!$this->apcHash) {
+            $this->apcHash = self::APCKEY . '_' . md5(implode('|', $this->getFeeds));
+        }
+        return $this->apcHash;
     }
 
     /**
@@ -43,7 +74,7 @@ class RSSClient
     /**
      * 
      */
-    public function clearFeeds()
+    protected function clearFeeds()
     {
         $this->feeds = array();
     }
@@ -102,7 +133,7 @@ class RSSClient
      *
      * @param RSSNode $node
      */
-    public function addNode(RSSNode $node)
+    protected function addNode(RSSNode $node)
     {
         array_push($this->nodes, $node);
     }
@@ -117,10 +148,10 @@ class RSSClient
     }
 
     /**
-     *
+     * @param int $limit
      * @return int $nodes
      */
-    public function fetch()
+    public function fetch($limit = 20)
     {
         if ($nodes = $this->getCache()) {
             $this->nodes = $nodes;
@@ -156,7 +187,7 @@ class RSSClient
         }
         $this->sort();
 
-        return $this->countNodes();
+        return $this->getNodes((int)$limit);
     }
 
     /**
@@ -166,8 +197,8 @@ class RSSClient
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_exists')) {
-                if (apc_exists($this->apcKey)) {
-                    apc_store($this->apcKey, $this->nodes, 3600);
+                if (apc_exists($this->getApcKey())) {
+                    apc_store($this->getApcKey(), $this->nodes, 3600);
                 }
             }
         }
@@ -175,14 +206,15 @@ class RSSClient
 
     /**
      * Retrieves from APC cache
+     * 
      * @return boolean 
      */
     protected function getCache()
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_store')) {
-                if (apc_exists($this->apcKey)) {
-                    return apc_fetch($this->apcKey);
+                if (apc_exists($this->getApcKey())) {
+                    return apc_fetch($this->getApcKey());
                 }
             }
         }
@@ -195,7 +227,7 @@ class RSSClient
      * @param int $limit
      * @return array $nodes
      */
-    public function getNodes($limit = 20)
+    protected function getNodes($limit = 20)
     {
         $limit = (int) $limit;
         $response = array();
@@ -207,7 +239,10 @@ class RSSClient
         return $response;
     }
 
-    public function sort()
+    /**
+     * 
+     */
+    protected function sort()
     {
         $countNodes = $this->countNodes();
         for ($i = 1; $i < $countNodes; $i++) {
