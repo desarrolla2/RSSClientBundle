@@ -51,6 +51,25 @@ class RSSClient implements RSSClientInterface
     public function __construct($feeds = array(), $channel = 'default')
     {
         $this->setFeeds($feeds, $channel);
+        return;
+    }
+
+    /**
+     * Create Channel if not exist;
+     * 
+     * @param string $channel
+     */
+    protected function createChannel($channel = 'default')
+    {
+        if (!isset($this->feeds[$channel])) {
+            $this->feeds[$channel] = array();
+            return;
+        }
+        if (!is_array($this->feeds[$channel])) {
+            $this->feeds[$channel] = array();
+            return;
+        }
+        return;
     }
 
     /**
@@ -75,7 +94,8 @@ class RSSClient implements RSSClientInterface
      */
     public function getFeeds($channel = 'default')
     {
-        return $this->feeds;
+        $this->createChannel($channel);
+        return $this->feeds[$channel];
     }
 
     /**
@@ -85,7 +105,8 @@ class RSSClient implements RSSClientInterface
      */
     protected function clearFeeds($channel = 'default')
     {
-        $this->feeds = array();
+        $this->feeds[$channel] = array();
+        return;
     }
 
     /**
@@ -98,6 +119,7 @@ class RSSClient implements RSSClientInterface
     {
         $this->clearFeeds($channel);
         $this->addFeed($feed, $channel);
+        return;
     }
 
     /**
@@ -110,6 +132,7 @@ class RSSClient implements RSSClientInterface
     {
         $this->clearFeeds($channel);
         $this->addFeeds($feeds, $channel);
+        return;
     }
 
     /**
@@ -120,7 +143,9 @@ class RSSClient implements RSSClientInterface
      */
     public function addFeed($feed, $channel = 'default')
     {
+        $this->createChannel($channel);
         array_push($this->feeds[$channel], (string) $feed);
+        return;
     }
 
     /**
@@ -135,6 +160,7 @@ class RSSClient implements RSSClientInterface
         foreach ($feeds as $feed) {
             $this->addFeed($feed, $channel);
         }
+        return;
     }
 
     /**
@@ -157,6 +183,7 @@ class RSSClient implements RSSClientInterface
      */
     public function countFeeds($channel = 'default')
     {
+        $this->createChannel($channel);
         return count($this->feeds[$channel]);
     }
 
@@ -168,7 +195,14 @@ class RSSClient implements RSSClientInterface
      */
     protected function addNode(RSSNode $node, $channel = 'default')
     {
+        if (!isset($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        if (!is_array($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
         array_push($this->nodes[$channel], $node);
+        return;
     }
 
     /**
@@ -179,6 +213,12 @@ class RSSClient implements RSSClientInterface
      */
     public function countNodes($channel = 'default')
     {
+        if (!isset($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        if (!is_array($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
         return count($this->nodes[$channel]);
     }
 
@@ -191,6 +231,7 @@ class RSSClient implements RSSClientInterface
      */
     public function fetch($limit = 20, $channel = 'default')
     {
+        $this->createChannel($channel);
         if ($nodes = $this->getCache($channel)) {
             $this->nodes[$channel] = $nodes;
         } else {
@@ -241,6 +282,7 @@ class RSSClient implements RSSClientInterface
                 }
             }
         }
+        return;
     }
 
     /**
@@ -270,14 +312,18 @@ class RSSClient implements RSSClientInterface
      */
     public function getNodes($limit = 20, $channel = 'default')
     {
-        $limit = (int) $limit;
-        $response = array();
-        for ($i = 0; $i < $limit; $i++) {
-            if (isset($this->nodes[$channel][$i])) {
-                array_push($response, $this->nodes[$channel][$i]);
+        if (is_array($this->nodes[$channel])) {
+            $limit = (int) $limit;
+            $response = array();
+            for ($i = 0; $i < $limit; $i++) {
+                if (isset($this->nodes[$channel][$i])) {
+                    array_push($response, $this->nodes[$channel][$i]);
+                }
             }
+            return $response;
         }
-        return $response;
+        // Exception ??
+        return false;
     }
 
     /**
@@ -297,6 +343,7 @@ class RSSClient implements RSSClientInterface
                 }
             }
         }
+        return;
     }
 
 }

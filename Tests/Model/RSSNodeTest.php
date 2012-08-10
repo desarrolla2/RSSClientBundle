@@ -15,8 +15,6 @@
 
 namespace Desarrolla2\Bundle\RSSClientBundle\Test\Service;
 
-require_once '../Model/RSSNode.php';
-
 use Desarrolla2\Bundle\RSSClientBundle\Model\RSSNode;
 
 class RSSNodeTest extends \PHPUnit_Framework_TestCase
