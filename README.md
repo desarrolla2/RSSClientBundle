@@ -121,4 +121,4 @@ Render the content for your users
 ## Coming soon
 
 * This client only was tested with RSS2.0 other format not guaranteed.
-* This client not provide any kind of cache. We like to provide APC cache or similar.
+* This client provide APC cache. We like to provide APC configuration soon.
