@@ -3,6 +3,8 @@ RSSClientBundle
 
 Service for provide RSS client in your website, you can automatically add content to your site from your favorite information providers.
 
+build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle)
+
 ## Bundle Installation
 
 ### Register the namespace
