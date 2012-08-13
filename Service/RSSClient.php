@@ -43,120 +43,199 @@ class RSSClient implements RSSClientInterface
     protected $apcHash = null;
 
     /**
+     * Construnctor
+     * 
+     * @param string $channel
      * @param array $feeds
      */
-    public function __construct($feeds = array())
+    public function __construct($feeds = array(), $channel = 'default')
     {
-        $this->setFeeds($feeds);
+        $this->setFeeds($feeds, $channel);
+        return;
+    }
+
+    /**
+     * Create Channel if not exist;
+     * 
+     * @param string $channel
+     */
+    protected function createChannel($channel = 'default')
+    {
+        if (!isset($this->feeds[$channel])) {
+            $this->feeds[$channel] = array();
+            return;
+        }
+        if (!is_array($this->feeds[$channel])) {
+            $this->feeds[$channel] = array();
+            return;
+        }
+        return;
     }
 
     /**
      * Generate a unique hash for apc
      * 
+     * @param string $channel
      * @return string 
      */
-    protected function getApcKey()
+    protected function getApcKey($channel = 'default')
     {
-        if (!$this->apcHash) {
-            $this->apcHash = self::APCKEY . '_' . md5(implode('|', $this->getFeeds));
+        if (!isset($this->apcHash[$channel])) {
+            $this->apcHash[$channel] = self::APCKEY . '_' . md5(implode('|', $this->getFeeds($channel)));
         }
-        return $this->apcHash;
+        return $this->apcHash[$channel];
     }
 
     /**
+     * Retrieve feeds from a channel
+     * 
+     * @param string $channel
      * @return array feeds
      */
-    public function getFeeds()
+    public function getFeeds($channel = 'default')
     {
-        return $this->feeds;
+        $this->createChannel($channel);
+        return $this->feeds[$channel];
+    }
+
+    /**
+     * Clear feeds
+     * 
+     * @param string $channel
+     */
+    protected function clearFeeds($channel = 'default')
+    {
+        $this->feeds[$channel] = array();
+        return;
+    }
+
+    /**
+     * Set feed in a hacnnel
+     * 
+     * @param string $feed 
+     * @param string $channel
+     */
+    public function setFeed($feed, $channel = 'default')
+    {
+        $this->clearFeeds($channel);
+        $this->addFeed($feed, $channel);
+        return;
+    }
+
+    /**
+     * Set feeds in a channel
+     * 
+     * @param array $feeds
+     * @param string $channel 
+     */
+    public function setFeeds($feeds, $channel = 'default')
+    {
+        $this->clearFeeds($channel);
+        $this->addFeeds($feeds, $channel);
+        return;
+    }
+
+    /**
+     * Add feed to channel
+     * 
+     * @param string $feed 
+     * @param string $channel
+     */
+    public function addFeed($feed, $channel = 'default')
+    {
+        $this->createChannel($channel);
+        array_push($this->feeds[$channel], (string) $feed);
+        return;
+    }
+
+    /**
+     * Add feeds to channel
+     *       
+     * @param array $feeds 
+     * @param string $channel
+     */
+    public function addFeeds($feeds, $channel = 'default')
+    {
+        $feeds = (array) $feeds;
+        foreach ($feeds as $feed) {
+            $this->addFeed($feed, $channel);
+        }
+        return;
     }
 
     /**
      * 
-     */
-    protected function clearFeeds()
-    {
-        $this->feeds = array();
-    }
-
-    /**
-     *
-     * @param string $feed 
-     */
-    public function setFeed($feed)
-    {
-        $this->clearFeeds();
-        $this->addFeed($feed);
-    }
-
-    /**
-     *
-     * @param array $feeds 
-     */
-    public function setFeeds($feeds)
-    {
-        $this->clearFeeds();
-        $this->addFeeds($feeds);
-    }
-
-    /**
-     *
-     * @param string $feed 
-     */
-    public function addFeed($feed)
-    {
-        array_push($this->feeds, (string) $feed);
-    }
-
-    /**
-     *
-     * @param array $feeds 
-     */
-    public function addFeeds($feeds)
-    {
-        $feeds = (array) $feeds;
-        foreach ($feeds as $feed) {
-            $this->addFeed($feed);
-        }
-    }
-
-    /**
-     *
+     * Retrieve the number of channels
+     * 
      * @return int count $feeds
      */
-    public function countFeeds()
+    public function countChanels()
     {
         return count($this->feeds);
     }
 
     /**
-     *
-     * @param RSSNode $node
+     * 
+     * Retrieve the number of feeds from a channels
+     * 
+     * @param string $channel
+     * @return int count $feeds
      */
-    protected function addNode(RSSNode $node)
+    public function countFeeds($channel = 'default')
     {
-        array_push($this->nodes, $node);
+        $this->createChannel($channel);
+        return count($this->feeds[$channel]);
     }
 
     /**
-     *
+     * Add node
+     * 
+     * @param RSSNode $node
+     * @param string $channel
+     */
+    protected function addNode(RSSNode $node, $channel = 'default')
+    {
+        if (!isset($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        if (!is_array($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        array_push($this->nodes[$channel], $node);
+        return;
+    }
+
+    /**
+     * Retrieve the number of nodes from a chanel
+     * 
+     * @param string $channel
      * @return int count $nodes
      */
-    public function countNodes()
+    public function countNodes($channel = 'default')
     {
-        return count($this->nodes);
+        if (!isset($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        if (!is_array($this->nodes[$channel])) {
+            $this->nodes[$channel] = array();
+        }
+        return count($this->nodes[$channel]);
     }
 
     /**
+     * Retrieve nodes from a chanel
+     * 
      * @param int $limit
+     * @param string $channel
      * @return int $nodes
      */
-    public function fetch($limit = 20)
+    public function fetch($limit = 20, $channel = 'default')
     {
-        if ($nodes = $this->getCache()) {
-            $this->nodes = $nodes;
+        $this->createChannel($channel);
+        if ($nodes = $this->getCache($channel)) {
+            $this->nodes[$channel] = $nodes;
         } else {
-            foreach ($this->feeds as $feed) {
+            foreach ($this->feeds[$channel] as $feed) {
                 $feed = @file_get_contents($feed);
                 if ($feed) {
                     $DOMDocument = new \DOMDocument();
@@ -173,41 +252,45 @@ class RSSClient implements RSSClientInterface
                                                     'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
                                                     'date'  => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
                                                 )
-                                        )
+                                        ), $channel
                                 );
                             }
                             catch (Exception $e) {
-// ..  
+                                // ..  
                             }
                         }
                     }
                 }
             }
-            $this->setCache();
+            $this->setCache($channel);
         }
-        $this->sort();
+        $this->sort($channel);
 
         return $this->getNodes((int) $limit);
     }
 
     /**
      * Set APC cache 
+     * 
+     * @param string $channel
      */
-    protected function setCache()
+    protected function setCache($channel = 'default')
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_store')) {
                 apc_store($this->getApcKey(), $this->nodes, 3600);
             }
         }
+        return;
     }
 
     /**
      * Retrieves from APC cache
      * 
+     * @param string $channel
      * @return boolean 
      */
-    protected function getCache()
+    protected function getCache($channel)
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_exists') && function_exists('apc_fetch')) {
@@ -223,35 +306,43 @@ class RSSClient implements RSSClientInterface
      * Retrieves a $limit number of nodes
      * 
      * @param int $limit
+     * @param string $channel
      * @return array $nodes
      */
-    protected function getNodes($limit = 20)
+    public function getNodes($limit = 20, $channel = 'default')
     {
-        $limit = (int) $limit;
-        $response = array();
-        for ($i = 0; $i < $limit; $i++) {
-            if (isset($this->nodes[$i])) {
-                array_push($response, $this->nodes[$i]);
+        if (is_array($this->nodes[$channel])) {
+            $limit = (int) $limit;
+            $response = array();
+            for ($i = 0; $i < $limit; $i++) {
+                if (isset($this->nodes[$channel][$i])) {
+                    array_push($response, $this->nodes[$channel][$i]);
+                }
             }
+            return $response;
         }
-        return $response;
+        // Exception ??
+        return false;
     }
 
     /**
+     * Sort by buuble method
      * 
+     * @param string $channel
      */
-    protected function sort()
+    protected function sort($channel)
     {
-        $countNodes = $this->countNodes();
+        $countNodes = $this->countNodes($channel);
         for ($i = 1; $i < $countNodes; $i++) {
             for ($j = 0; $j < $countNodes - $i; $j++) {
-                if ($this->nodes[$j]->getTimestamp() < $this->nodes[$j + 1]->getTimestamp()) {
-                    $k = $this->nodes[$j + 1];
-                    $this->nodes[$j + 1] = $this->nodes[$j];
-                    $this->nodes[$j] = $k;
+                if ($this->nodes[$channel][$j]->getTimestamp() < $this->nodes[$channel][$j + 1]->getTimestamp()) {
+                    $k = $this->nodes[$channel][$j + 1];
+                    $this->nodes[$channel][$j + 1] = $this->nodes[$channel][$j];
+                    $this->nodes[$channel][$j] = $k;
                 }
             }
         }
+        return;
     }
 
 }
