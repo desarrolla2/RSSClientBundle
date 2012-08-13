@@ -177,7 +177,7 @@ class RSSClient implements RSSClientInterface
                                 );
                             }
                             catch (Exception $e) {
-                                // ..  
+// ..  
                             }
                         }
                     }
@@ -187,7 +187,7 @@ class RSSClient implements RSSClientInterface
         }
         $this->sort();
 
-        return $this->getNodes((int)$limit);
+        return $this->getNodes((int) $limit);
     }
 
     /**
@@ -196,10 +196,8 @@ class RSSClient implements RSSClientInterface
     protected function setCache()
     {
         if (extension_loaded('apc')) {
-            if (function_exists('apc_exists')) {
-                if (apc_exists($this->getApcKey())) {
-                    apc_store($this->getApcKey(), $this->nodes, 3600);
-                }
+            if (function_exists('apc_store')) {
+                apc_store($this->getApcKey(), $this->nodes, 3600);
             }
         }
     }
@@ -212,9 +210,9 @@ class RSSClient implements RSSClientInterface
     protected function getCache()
     {
         if (extension_loaded('apc')) {
-            if (function_exists('apc_store')) {
-                if (apc_exists($this->getApcKey())) {
-                    return apc_fetch($this->getApcKey());
+            if (function_exists('apc_exists') && function_exists('apc_fetch')) {
+                if (apc_exists($this->getApcKey($channel))) {
+                    return apc_fetch($this->getApcKey($channel));
                 }
             }
         }
