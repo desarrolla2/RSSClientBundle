@@ -9,8 +9,13 @@
     </parameters>
 
     <services>
-        <service id="d2.client.rss" class="%rss_client.class%">
-            <argument>%d2.client.rss.feeds%</argument>
+        <service id="d2.client.rss" class="%rss_client.class%">            
+            <call method="setFeed">
+                <argument>%d2.client.rss.feeds%</argument>
+            </call>
+            <call method="setChannels">
+                <argument>%d2.client.rss.channels%</argument>
+            </call>
         </service>
     </services>
 </container>

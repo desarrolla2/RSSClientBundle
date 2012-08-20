@@ -50,7 +50,9 @@ class RSSClient implements RSSClientInterface
      */
     public function __construct($feeds = array(), $channel = 'default')
     {
-        $this->setFeeds($feeds, $channel);
+        if (is_array($feeds)) {
+            $this->setFeeds($feeds, $channel);
+        }
         return;
     }
 
@@ -123,6 +125,24 @@ class RSSClient implements RSSClientInterface
     }
 
     /**
+     * 
+     * @param type $channels
+     * @return type
+     */
+    public function setChannels($channels)
+    {
+        var_dump($channels);
+        die('1');
+        if (is_array($channels)) {
+            foreach ($channels as $channel) {
+                
+            }
+        }
+        die();
+        return;
+    }
+
+    /**
      * Set feeds in a channel
      * 
      * @param array $feeds
@@ -130,8 +150,12 @@ class RSSClient implements RSSClientInterface
      */
     public function setFeeds($feeds, $channel = 'default')
     {
-        $this->clearFeeds($channel);
-        $this->addFeeds($feeds, $channel);
+        if (is_array($feeds)) {
+            if (count($feeds)) {
+                $this->clearFeeds($channel);
+                $this->addFeeds($feeds, $channel);
+            }
+        }
         return;
     }
 
@@ -143,8 +167,12 @@ class RSSClient implements RSSClientInterface
      */
     public function addFeed($feed, $channel = 'default')
     {
-        $this->createChannel($channel);
-        array_push($this->feeds[$channel], (string) $feed);
+        if ($this->isValidURL($feed)) {
+            $this->createChannel($channel);
+            array_push($this->feeds[$channel], (string) $feed);
+        } else {
+            throw new \Exception('URL not valid ' . $feed);
+        }
         return;
     }
 
@@ -158,6 +186,7 @@ class RSSClient implements RSSClientInterface
     {
         $feeds = (array) $feeds;
         foreach ($feeds as $feed) {
+            //@TODO validate URL
             $this->addFeed($feed, $channel);
         }
         return;
@@ -248,14 +277,13 @@ class RSSClient implements RSSClientInterface
                                         new RSSNode(
                                                 array(
                                                     'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
-                                                    'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                                                    'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
-                                                    'date'  => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+                                                    'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+                                                    'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
+                                                    'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
                                                 )
                                         ), $channel
                                 );
-                            }
-                            catch (Exception $e) {
+                            } catch (Exception $e) {
                                 // ..  
                             }
                         }
@@ -343,6 +371,16 @@ class RSSClient implements RSSClientInterface
             }
         }
         return;
+    }
+
+    /**
+     * 
+     * @param type $url
+     * @return bool
+     */
+    protected function isValidURL($url)
+    {
+        return filter_var('http://example.com', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) ? true : false;
     }
 
 }
