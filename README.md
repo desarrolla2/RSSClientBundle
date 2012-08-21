@@ -7,17 +7,21 @@ build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClie
 
 ## Bundle Installation
 
-### Register the namespace
 
-``` php
-<?php
+### Get the bundle
 
-  // app/autoload.php
-  $loader->registerNamespaces(array(
-      'Desarrolla2' => __DIR__.'/../vendor/bundles',
-      // your other namespaces
-      ));
-```
+Add to your `/deps` file :
+
+``` composer.json
+    "require": {
+        ...       
+        "desarrolla2/rss-client-bundle": "dev-master" 
+    },
+````
+        
+And make a 
+
+`composer update`
 
 ### Register the bundle
 
@@ -34,21 +38,6 @@ build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClie
   }
 ```
 
-### Get the bundle
-
-Add to your `/deps` file :
-
-``` deps
-[RSSClientBundle]
-    git=git@github.com:desarrolla2/RSSClientBundle.git
-    target=/bundles/Desarrolla2/Bundle/RSSClientBundle
-````
-        
-And make a 
-
-`php bin/vendors install`
-
-
 ## Using RSS Bundle
 
 ### Configure providers
@@ -56,16 +45,18 @@ And make a
 You need edit your config.yml and add the rss routes you want to get.
 
 ``` yml
-parameters:
-  d2.client.rss.feeds:
-    - 'http://codeup.net/feed/'
-    - 'http://www.osukaru.es/feed/'
-    - 'http://feeds.feedburner.com/moidev?format=xml'
-    - 'http://desarrolla2.com/feed/'
-    - 'http://feeds.feedburner.com/symfony/blog'
-    - 'http://www.symfony.es/feed/'
+# app/config/config.yml
+rss_client:
+   channels:
+     
+      channel_name1:
+         - 'http://www.osukaru.es/feed/'
+         - 'http://desarrolla2.com/feed/'
+         
+      channel_name2:
+         - 'http://feeds.feedburner.com/symfony/blog'
+         - 'http://www.symfony.es/feed/'
 ```
-
 
 
 ### In your controller
@@ -87,8 +78,8 @@ class NewsController extends Controller
      */
     public function indexAction()
     {
-        $this->client = $this->get('d2.client.rss');
-        $this->client->fetch();
+        $this->client = $this->get('d2_rss_client');
+        $this->client->fetch('channel_name1');
 
         return array(
             'feeds'   => $this->client->getNodes(),
@@ -104,14 +95,14 @@ Render the content for your users
 
 ``` twig
 {% block content %}
-    <section class="page-content news">
+    <section>
         {% for feed in feeds %}            
-            <article class="hentry">
-                <header class="entry-title">
+            <article>
+                <header>
                     <a href="{{ feed.link }}" target="_blank">{{ feed.title }}</a>
                     <small class="date-header">{{ feed.pubDate|date('d/m/Y H:i') }}</small>
                 </header>
-                <p class="entry-content">{{ feed.desc | replace({'&lt;':'<', '&gt;':'>'}) | striptags | truncate(420) | raw }}</p>
+                <p>{{ feed.desc | replace({'&lt;':'<', '&gt;':'>'}) | striptags | truncate(420) | raw }}</p>
             </article>      
         {% else %}
             <p>Not news :(</p>
@@ -123,4 +114,4 @@ Render the content for your users
 ## Coming soon
 
 * This client only was tested with RSS2.0 other format not guaranteed.
-* This client provide APC cache. We like to provide APC configuration soon.
+* This client provide APC cache. Configuration time, and cache provider will be ready soon.
