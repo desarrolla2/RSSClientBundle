@@ -324,9 +324,17 @@ class RSSClient implements RSSClientInterface
      * @param string $channel
      * @return int $nodes
      */
-    public function fetch($limit = 20, $channel = 'default')
+    public function fetch($channel = 'default', $limit = 20)
     {
-        $this->createChannel($channel);
+        if (!is_string($channel)) {
+            throw new \Exception('channel not valid (' . gettype($channel) . ')');
+        }
+        if (in_array($channel, $this->feeds)) {
+            throw new \Exception('channel not valid (' . $channel . ')');
+        }
+        if (!is_integer($limit)) {
+            throw new \Exception('limit not valid (' . gettype($limit) . ')');
+        }
         if ($nodes = $this->getCache($channel)) {
             $this->nodes[$channel] = $nodes;
         } else {
@@ -361,7 +369,7 @@ class RSSClient implements RSSClientInterface
         }
         $this->sort($channel);
 
-        return $this->getNodes((int) $limit);
+        return $this->getNodes($channel, $limit);
     }
 
     /**
@@ -369,7 +377,7 @@ class RSSClient implements RSSClientInterface
      * 
      * @param string $channel
      */
-    protected function setCache($channel = 'default')
+    protected function setCache()
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_store')) {
@@ -404,19 +412,30 @@ class RSSClient implements RSSClientInterface
      * @param string $channel
      * @return array $nodes
      */
-    public function getNodes($limit = 20, $channel = 'default')
+    protected function getNodes($channel = 'default', $limit = 20)
     {
-        if (is_array($this->nodes[$channel])) {
-            $limit = (int) $limit;
-            $response = array();
-            for ($i = 0; $i < $limit; $i++) {
-                if (isset($this->nodes[$channel][$i])) {
-                    array_push($response, $this->nodes[$channel][$i]);
-                }
-            }
-            return $response;
+        if (!is_string($channel)) {
+            throw new \Exception('channel not valid (' . gettype($channel) . ')');
         }
-        // Exception ??
+        if (in_array($channel, $this->feeds)) {
+            throw new \Exception('channel not valid (' . $channel . ')');
+        }
+        if (!is_integer($limit)) {
+            throw new \Exception('limit not valid (' . gettype($limit) . ')');
+        }
+        if (is_array($this->nodes[$channel])) {
+            if (count($this->nodes[$channel])) {
+                $response = array();
+                for ($i = 0; $i < $limit; $i++) {
+                    if (isset($this->nodes[$channel][$i])) {
+                        array_push($response, $this->nodes[$channel][$i]);
+                    }
+                }
+                return $response;
+            }
+        }
+        $this->addError('Not nodes found in ' . $channel);
+
         return false;
     }
 
@@ -425,7 +444,7 @@ class RSSClient implements RSSClientInterface
      * 
      * @param string $channel
      */
-    protected function sort($channel)
+    protected function sort($channel = 'default')
     {
         $countNodes = $this->countNodes($channel);
         for ($i = 1; $i < $countNodes; $i++) {
