@@ -14,15 +14,25 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class RSSClientExtension extends Extension
 {
+
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
+        
+        $container->setParameter('d2_client_rss.channels', $config['channels']);
     }
+
+    public function getAlias()
+    {
+        return 'rss_client';
+    }
+
 }

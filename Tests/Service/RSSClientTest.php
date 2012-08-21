@@ -25,53 +25,218 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
      */
     protected $client = null;
 
+    /**
+     * @var string
+     */
+    protected $example_feed = 'http://desarrolla2.com/feed/';
+
     public function setUp()
     {
         $this->client = new RSSClient();
-        $this->client->addFeed('http://desarrolla2.com/feed/');
+    }
+
+    public function getDataForFeeds()
+    {
+        return array(
+            array(
+                array(
+                    $this->example_feed,
+                ),
+            ),
+            array(
+                array(
+                    $this->example_feed,
+                    $this->example_feed,
+                ),
+            ),
+            array(
+                array(
+                    $this->example_feed,
+                    $this->example_feed,
+                    $this->example_feed,
+                ),
+            ),
+            array(
+                array(
+                    $this->example_feed,
+                    $this->example_feed,
+                    $this->example_feed,
+                    $this->example_feed,
+                    $this->example_feed,
+                    $this->example_feed,
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataForChannels()
+    {
+        return array(
+            array(
+                array(
+                    'channel1' => array(
+                        $this->example_feed,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'channel1' => array(
+                        $this->example_feed,
+                        $this->example_feed,
+                    ),
+                ),
+                array(
+                    'channel1' => array(
+                        $this->example_feed,
+                    ),
+                    'channel2' => array(
+                        $this->example_feed,
+                        $this->example_feed,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'channel1' => array(
+                        $this->example_feed,
+                    ),
+                    'channel2' => array(
+                        $this->example_feed,
+                        $this->example_feed,
+                    ),
+                    'channel3' => array(
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                        $this->example_feed,
+                    ),
+                ),
+            ),
+        );
     }
 
     /**
      * @test
+     * @dataProvider getDataForFeeds
      */
-    public function testAddFeed()
+    public function testAddFeed($data)
     {
-        $this->client->addFeed('feed1');
-        $this->assertEquals(count($this->client->getFeeds()), 2);
-    }
-
-    /**
-     * @test
-     */
-    public function testAddFeeds()
-    {
-        $this->client->addFeeds(array('feed1', 'feed2'));
-        $this->client->addFeeds(array('feed3', 'feed4'));
-        $this->assertEquals(count($this->client->getFeeds()), 5);
-    }
-
-    /**
-     * @test
-     */
-    public function testSetFeeds()
-    {
-        $this->client->addFeed('feed1');
-        $this->client->setFeeds(array('feed1'));
+        $this->client->addFeed($this->example_feed);
+        foreach ($data as $feed) {
+            $this->client->addFeed($feed);
+        }
         $this->assertEquals(count($this->client->getFeeds()), 1);
     }
 
     /**
      * @test
+     * @dataProvider getDataForFeeds
      */
-    public function testFetch()
+    public function testAddFeeds($data)
     {
-        $this->client->fetch();
-        $this->assertEquals(10, $this->client->countNodes());
+        $this->client->addFeed('feed1');
+        $this->client->addFeeds($data);
+        $this->client->addFeeds($data);
+        $this->assertEquals(count($this->client->getFeeds()), 2);
     }
 
-    public function getDataForXSS()
+    /**
+     * @test
+     * @dataProvider getDataForFeeds
+     */
+    public function testSetFeeds($data)
     {
-        
+        $this->client->addFeed('feed1');
+        $this->client->setFeeds($data);
+        $this->assertEquals(count($this->client->getFeeds()), 1);
     }
 
+    /**
+     * @test
+     * @dataProvider getDataForFeeds
+     */
+    public function countFeeds($data)
+    {
+        $this->client->addFeed('feed1');
+        $this->client->addFeeds($data);
+        $this->assertEquals($this->client->countFeeds(), 2);
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForChannels
+     */
+    public function testCountChannels($data)
+    {
+        $this->client->setChannels($data);
+        $this->assertEquals(count($data), $this->client->countChannels());
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForChannels
+     */
+    public function testGetChannels($data)
+    {        
+        $this->client->setChannels($data);
+        $this->assertEquals(count($data), count($this->client->getChannels()));
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForChannels
+     */
+    public function testGetChannelsNames($data)
+    {
+        $this->client->setChannels($data);
+        $this->assertEquals(array_keys($data), $this->client->getChannelsNames());
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForChannels
+     */
+    public function testAddChannels($data)
+    {
+        $this->client->addChannels(array(
+            'test1' => array(
+                $this->example_feed,
+            ),
+        ));
+        $this->client->addChannels($data);
+        $this->assertEquals((count($data) + 1), $this->client->countChannels());
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForChannels
+     */
+    public function testClearChannels($data)
+    {
+        $this->client->setChannels($data);
+        $this->client->setChannels($data);
+        $this->assertEquals(count($data), $this->client->countChannels());
+    }
+//
+//    public function getNodes($data)
+//    {
+//        
+//    }
+
+//    /**
+//     * @test
+//     */
+//    public function testFetch($data)
+//    {
+//        $this->client->fetch();
+//        $this->assertEquals(10, $this->client->countNodes());
+//    }
 }

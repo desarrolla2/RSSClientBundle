@@ -32,6 +32,11 @@ class RSSClient implements RSSClientInterface
     protected $nodes = array();
 
     /**
+     * @var array 
+     */
+    protected $errors = array();
+
+    /**
      * @var string 
      */
 
@@ -89,6 +94,30 @@ class RSSClient implements RSSClientInterface
     }
 
     /**
+     * Retrieve Channel
+     * 
+     * @return array $channels
+     */
+    public function getChannels()
+    {
+        return $this->feeds;
+    }
+
+    /**
+     * Retrieve Channel Names
+     * 
+     * @return array $channels
+     */
+    public function getChannelsNames()
+    {
+        $channels = array();
+        foreach ($this->feeds as $channel => $feed) {
+            array_push($channels, $channel);
+        }
+        return $channels;
+    }
+
+    /**
      * Retrieve feeds from a channel
      * 
      * @param string $channel
@@ -98,6 +127,17 @@ class RSSClient implements RSSClientInterface
     {
         $this->createChannel($channel);
         return $this->feeds[$channel];
+    }
+
+    /**
+     * Clear Channels
+     * 
+     * @return type
+     */
+    protected function clearChannels()
+    {
+        $this->feeds = array();
+        return;
     }
 
     /**
@@ -125,20 +165,30 @@ class RSSClient implements RSSClientInterface
     }
 
     /**
+     * set the channels for client
      * 
      * @param type $channels
-     * @return type
      */
     public function setChannels($channels)
     {
-        var_dump($channels);
-        die('1');
-        if (is_array($channels)) {
-            foreach ($channels as $channel) {
-                
-            }
+        $this->clearChannels();
+        $this->addChannels($channels);
+        return;
+    }
+
+    /**
+     * add channels for client
+     * 
+     * @param type $channels
+     */
+    public function addChannels($channels)
+    {
+        if (!is_array($channels)) {
+            throw new \Exception('channels not valid (' . gettype($channels) . ')');
         }
-        die();
+        foreach ($channels as $channel => $feeds) {
+            $this->addFeeds($feeds, $channel);
+        }
         return;
     }
 
@@ -150,11 +200,12 @@ class RSSClient implements RSSClientInterface
      */
     public function setFeeds($feeds, $channel = 'default')
     {
-        if (is_array($feeds)) {
-            if (count($feeds)) {
-                $this->clearFeeds($channel);
-                $this->addFeeds($feeds, $channel);
-            }
+        if (!is_array($feeds)) {
+            throw new \Exception('feeds not valid (' . gettype($feeds) . ')');
+        }
+        if (count($feeds)) {
+            $this->clearFeeds($channel);
+            $this->addFeeds($feeds, $channel);
         }
         return;
     }
@@ -167,9 +218,20 @@ class RSSClient implements RSSClientInterface
      */
     public function addFeed($feed, $channel = 'default')
     {
+        if (!is_string($feed)) {
+            throw new \Exception('feed not valid (' . gettype($feed) . ')');
+        }
+        if (!is_string($channel)) {
+            throw new \Exception('channel not valid (' . gettype($channel) . ')');
+        }
+
         if ($this->isValidURL($feed)) {
             $this->createChannel($channel);
-            array_push($this->feeds[$channel], (string) $feed);
+            if (!in_array($feed, $this->feeds[$channel])) {
+                array_push($this->feeds[$channel], $feed);
+            } else {
+                $this->addError('tryint to add feed (' . $feed . ') that exist in channel (' . $channel . ')');
+            }
         } else {
             throw new \Exception('URL not valid ' . $feed);
         }
@@ -184,9 +246,13 @@ class RSSClient implements RSSClientInterface
      */
     public function addFeeds($feeds, $channel = 'default')
     {
-        $feeds = (array) $feeds;
+        if (!is_array($feeds)) {
+            throw new \Exception('feeds not valid (' . gettype($feeds) . ')');
+        }
+        if (!is_string($channel)) {
+            throw new \Exception('channel not valid (' . gettype($channel) . ')');
+        }
         foreach ($feeds as $feed) {
-            //@TODO validate URL
             $this->addFeed($feed, $channel);
         }
         return;
@@ -198,7 +264,7 @@ class RSSClient implements RSSClientInterface
      * 
      * @return int count $feeds
      */
-    public function countChanels()
+    public function countChannels()
     {
         return count($this->feeds);
     }
@@ -277,14 +343,15 @@ class RSSClient implements RSSClientInterface
                                         new RSSNode(
                                                 array(
                                                     'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
-                                                    'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                                                    'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
-                                                    'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+                                                    'desc'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
+                                                    'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+                                                    'date'  => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
                                                 )
                                         ), $channel
                                 );
-                            } catch (Exception $e) {
-                                // ..  
+                            }
+                            catch (Exception $e) {
+                                $this->addError($e->getMessage());
                             }
                         }
                     }
@@ -380,7 +447,38 @@ class RSSClient implements RSSClientInterface
      */
     protected function isValidURL($url)
     {
-        return filter_var('http://example.com', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) ? true : false;
+        return filter_var('http://example.com', FILTER_VALIDATE_URL) ? true : false;
+    }
+
+    /**
+     * Add Error to stack
+     * 
+     * @param string $message
+     */
+    protected function addError($message)
+    {
+        $message = (string) $message;
+        array_push($this->errors, $message);
+        return;
+    }
+
+    /**
+     * Retrieve errors stack
+     * 
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Retrieve if any errors ocurred
+     * @return type
+     */
+    public function hasErrors()
+    {
+        return count($this->errors) ? true : false;
     }
 
 }

@@ -12,20 +12,28 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-
     /**
      * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('rss_client');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-
+        $treeBuilder->root('rss_client')
+            ->children()                
+                ->arrayNode('channels')                    
+                    ->useAttributeAsKey('id')
+                    ->info('RSS Client Channels Configuration')
+                    ->treatNullLike(array())                    
+                        ->prototype('array')
+                        ->treatNullLike(array())                        
+                            ->prototype('scalar')
+                            ->treatNullLike(null)
+                            ->end()                                   
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+            ;
         return $treeBuilder;
     }
-
 }

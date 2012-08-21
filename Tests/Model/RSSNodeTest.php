@@ -98,6 +98,7 @@ class RSSNodeTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataForTestXSS
      * @param type $options 
+     * @param type $results 
      */
     public function testXSS($options, $results)
     {
