@@ -78,7 +78,7 @@ class NewsController extends Controller
      */
     public function indexAction()
     {
-        $this->client = $this->get('d2_rss_client');
+        $this->client = $this->get('d2_client_rss');
         $this->client->fetch('channel_name1');
 
         return array(
