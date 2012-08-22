@@ -10,6 +10,10 @@
         "name": "Daniel González",
         "homepage": "http://desarrolla2.com/"
     }
+    "support" : {
+        "issues": "https://github.com/desarrolla2/RSSClientBundle/issues"
+    }
+
     ],
     "require": {
         "php": ">=5.3.2",
