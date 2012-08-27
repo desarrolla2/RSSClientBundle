@@ -95,7 +95,7 @@ class NewsController extends Controller
 
 Render the content for your users
 
-``` twig
+``` html
 {% block content %}
     <section>
         {% for feed in feeds %}            
