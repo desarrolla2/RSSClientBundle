@@ -10,7 +10,7 @@ build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClie
 
 ### Get the bundle
 
-Add to your `/deps` file :
+Add to your `/composer.json` file :
 
 ``` composer.json
     "require": {
