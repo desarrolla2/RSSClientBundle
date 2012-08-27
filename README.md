@@ -102,7 +102,7 @@ Render the content for your users
             <article>
                 <header>
                     <a href="{{ feed.link }}" target="_blank">{{ feed.title }}</a>
-                    <small class="date-header">{{ feed.pubDate | date('d/m/Y H:i') }}</small>
+                    <time>{{ feed.pubDate | date('d/m/Y H:i') }}</time>
                 </header>
                 <p>{{ feed | raw }}</p>
             </article>      
