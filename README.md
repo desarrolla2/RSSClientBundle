@@ -12,16 +12,18 @@ build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClie
 
 Add to your `/composer.json` file :
 
-``` composer.json
+``` json
     "require": {
         ...       
         "desarrolla2/rss-client-bundle": "dev-master" 
     },
 ````
         
-And make a 
+And make
 
-`composer update`
+``` bash
+composer update
+```
 
 ### Register the bundle
 
