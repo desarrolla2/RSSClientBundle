@@ -381,7 +381,7 @@ class RSSClient implements RSSClientInterface
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_store')) {
-                apc_store($this->getApcKey(), $this->nodes, 3600);
+                apc_store($this->getApcKey($channel), $this->nodes, 3600);
             }
         }
         return;
