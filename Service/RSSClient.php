@@ -466,7 +466,7 @@ class RSSClient implements RSSClientInterface
      */
     protected function isValidURL($url)
     {
-        return filter_var('http://example.com', FILTER_VALIDATE_URL) ? true : false;
+        return filter_var($url, FILTER_VALIDATE_URL) ? true : false;
     }
 
     /**
