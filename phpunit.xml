@@ -8,13 +8,14 @@
     </testsuites>
 
     <filter>
-        <whitelist>
+        <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>./Test</directory>
-        </whitelist>
-    </filter>
-    
+            <exclude>
+                <directory >./vendor</directory>
+            </exclude>
+        </whitelist>        
+    </filter>    
     <logging>
-        <log type="coverage-html" target="/tmp/" charset="UTF-8" yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>      
     </logging>
 </phpunit>
