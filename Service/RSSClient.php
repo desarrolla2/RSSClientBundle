@@ -39,7 +39,6 @@ class RSSClient implements RSSClientInterface
     /**
      * @var string 
      */
-
     const APCKEY = 'd2.client.rss.nodes';
 
     /**

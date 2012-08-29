@@ -29,6 +29,8 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
      * @var string
      */
     protected $example_feed = 'http://desarrolla2.com/feed/';
+    
+    protected $example_feed2 = 'http://blog.desarrolla2.com/feed/';
 
     public function setUp()
     {
@@ -142,7 +144,7 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFeeds($data)
     {
-        $this->client->addFeed('feed1');
+        $this->client->addFeed($this->example_feed2);
         $this->client->addFeeds($data);
         $this->client->addFeeds($data);
         $this->assertEquals(count($this->client->getFeeds()), 2);
@@ -154,7 +156,7 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFeeds($data)
     {
-        $this->client->addFeed('feed1');
+        $this->client->addFeed($this->example_feed2);
         $this->client->setFeeds($data);
         $this->assertEquals(count($this->client->getFeeds()), 1);
     }
@@ -165,7 +167,7 @@ class RSSClientTest extends \PHPUnit_Framework_TestCase
      */
     public function countFeeds($data)
     {
-        $this->client->addFeed('feed1');
+        $this->client->addFeed($this->example_feed2);
         $this->client->addFeeds($data);
         $this->assertEquals($this->client->countFeeds(), 2);
     }
