@@ -184,13 +184,9 @@ class RSSNode
      */
     public function setPubDate($date)
     {
-        try {
-            if (strtotime($date)) {
-                $this->pubDate = new DateTime($date);
-            } else {
-                $this->pubDate = false;
-            }
-        } catch (Exception $e) {
+        if (strtotime($date)) {
+            $this->pubDate = new DateTime($date);
+        } else {
             $this->pubDate = false;
         }
     }

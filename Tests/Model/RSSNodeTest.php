@@ -49,6 +49,24 @@ class RSSNodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * data Provider 
+     */
+    public function getDataForFalse()
+    {
+        return array(
+            array(
+                array(
+                    'title' => 'title',
+                    'desc' => 'desc',
+                    'link' => 'link',
+                    'date' => 'dabDateTimeFormat',
+                    'content' => 'content'
+                ),
+            ),
+        );
+    }
+
+    /**
      * @test
      * @dataProvider getDataForTrue
      * @param type $options 
@@ -68,6 +86,17 @@ class RSSNodeTest extends \PHPUnit_Framework_TestCase
     {
         $this->node->fromArray($options);
         $this->assertEquals($options['desc'], $this->node->getDesc());
+    }
+    
+    /**
+     * @test
+     * @dataProvider getDataForTrue
+     * @param type $options 
+     */
+    public function testToString($options)
+    {
+        $this->node->fromArray($options);
+        $this->assertEquals($options['desc'], (string) $this->node);
     }
 
     /**
@@ -114,6 +143,28 @@ class RSSNodeTest extends \PHPUnit_Framework_TestCase
         $this->node->fromArray($options);
         $date = new \DateTime($options['date']);
         $this->assertEquals($date->getTimestamp(), $this->node->getTimestamp());
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForFalse
+     * @param type $options 
+     */
+    public function testPubDateFalse($options)
+    {
+        $this->node->fromArray($options);
+        $this->assertEquals(false, $this->node->getPubDate());
+    }
+
+    /**
+     * @test
+     * @dataProvider getDataForFalse
+     * @param type $options 
+     */
+    public function testTimestampFalse($options)
+    {
+        $this->node->fromArray($options);
+        $this->assertEquals(false, $this->node->getTimestamp());
     }
 
 }

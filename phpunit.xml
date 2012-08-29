@@ -8,12 +8,12 @@
     </testsuites>
 
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory>./Test</directory>
-            <exclude>
-                <directory >./vendor</directory>
-            </exclude>
-        </whitelist>        
+        </whitelist>
+        <blacklist>
+            <directory suffix=".php">./vendor</directory>
+        </blacklist>        
     </filter>    
     <logging>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>      
