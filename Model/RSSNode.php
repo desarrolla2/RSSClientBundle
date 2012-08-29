@@ -33,13 +33,22 @@ class RSSNode
     /**
      * @var string
      */
+    protected $content = null;
+
+    /**
+     * @var string
+     */
     protected $link = null;
 
     /**
-     *
      * @var \DateTime
      */
     protected $pubDate = null;
+
+    /**
+     * @var type 
+     */
+    protected $htmlSanitizer = null;
 
     /**
      *
@@ -47,9 +56,10 @@ class RSSNode
      */
     public function __construct($options = array())
     {
-        $this->setOptions($options);
+        $this->fromArray($options);
+        $this->htmlSanitizer = new \HTMLPurifier(\HTMLPurifier_Config::createDefault());
     }
-    
+
     /**
      * toString 
      * 
@@ -64,7 +74,7 @@ class RSSNode
      *
      * @param array $options 
      */
-    public function setOptions($options = array())
+    public function fromArray($options = array())
     {
         if (is_array($options)) {
             if (isset($options['title'])) {
@@ -72,6 +82,9 @@ class RSSNode
             }
             if (isset($options['desc'])) {
                 $this->setDesc($options['desc']);
+            }
+            if (isset($options['content'])) {
+                $this->setContent($options['content']);
             }
             if (isset($options['link'])) {
                 $this->setLink($options['link']);
@@ -90,7 +103,7 @@ class RSSNode
      */
     protected function doClean($string)
     {
-        return strip_tags((string) $string);
+        return $this->htmlSanitizer->purify((string) $string);
     }
 
     /**
@@ -131,6 +144,24 @@ class RSSNode
 
     /**
      *
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $this->doClean($content);
+    }
+
+    /**
+     *
+     * @return string $content
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     *
      * @param string $link 
      */
     public function setLink($link)
@@ -155,18 +186,18 @@ class RSSNode
     {
         try {
             if (strtotime($date)) {
-                $this->pubDate = new DateTime($this->doClean($date));
+                $this->pubDate = new DateTime($date);
             } else {
-                $this->pubDate = new DateTime('-1 year');
+                $this->pubDate = false;
             }
-        }
-        catch (Exception $e) {
-            $this->pubDate = new DateTime('-1 year');
+        } catch (Exception $e) {
+            $this->pubDate = false;
         }
     }
 
     /**
-     *
+     * Retrieve Pub date
+     * 
      * @return DateTime $date 
      */
     public function getPubDate()
@@ -174,12 +205,17 @@ class RSSNode
         return $this->pubDate;
     }
 
+    /**
+     * Retrieve timestamp
+     * 
+     * @return int
+     */
     public function getTimestamp()
     {
         if ($this->pubDate) {
             return $this->pubDate->getTimestamp();
         }
-        return 0;
+        return false;
     }
 
 }

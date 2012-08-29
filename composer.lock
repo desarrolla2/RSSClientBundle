@@ -1,0 +1,19 @@
+{
+    "hash": "cbb6a099cb9e1b361cc35893b08a6865",
+    "packages": [
+        {
+            "package": "ezyang/htmlpurifier",
+            "version": "dev-master",
+            "source-reference": "7291f19347b05f5833421eaf5152558bfbd2b454",
+            "commit-date": "1331953936"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "ezyang/htmlpurifier": 20
+    }
+}
