@@ -411,7 +411,7 @@ class RSSClient implements RSSClientInterface
      * @param string $channel
      * @return array $nodes
      */
-    public function getNodes($channel = 'default', $limit = 20)
+    protected function getNodes($channel = 'default', $limit = 20)
     {
         if (!is_string($channel)) {
             throw new \Exception('channel not valid (' . gettype($channel) . ')');

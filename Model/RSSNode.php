@@ -49,6 +49,16 @@ class RSSNode
     {
         $this->setOptions($options);
     }
+    
+    /**
+     * toString 
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDesc();
+    }
 
     /**
      *
