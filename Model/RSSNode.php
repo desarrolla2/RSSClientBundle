@@ -46,7 +46,7 @@ class RSSNode
     protected $pubDate = null;
 
     /**
-     * @var type 
+     * @var \HTMLPurifier 
      */
     protected $htmlSanitizer = null;
 
@@ -58,6 +58,18 @@ class RSSNode
     {
         $this->fromArray($options);
         $this->htmlSanitizer = new \HTMLPurifier(\HTMLPurifier_Config::createDefault());
+    }
+
+    /**
+     * 
+     * @return \HTMLPurifier
+     */
+    public function getSanitizer()
+    {
+        if (!$this->htmlSanitizer) {
+            $this->htmlSanitizer = new \HTMLPurifier(\HTMLPurifier_Config::createDefault());
+        }
+        return $this->htmlSanitizer;
     }
 
     /**
@@ -103,7 +115,7 @@ class RSSNode
      */
     protected function doClean($string)
     {
-        return $this->htmlSanitizer->purify((string) $string);
+        return $this->getSanitizer()->purify((string) $string);
     }
 
     /**
