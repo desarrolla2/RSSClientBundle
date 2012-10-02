@@ -376,7 +376,7 @@ class RSSClient implements RSSClientInterface
      * 
      * @param string $channel
      */
-    protected function setCache()
+    protected function setCache($channel)
     {
         if (extension_loaded('apc')) {
             if (function_exists('apc_store')) {
