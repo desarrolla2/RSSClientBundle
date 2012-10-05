@@ -2,22 +2,127 @@
     "hash": "345cb3cb820c8a1b21718ad811c9d781",
     "packages": [
         {
-            "package": "desarrolla2/cache",
+            "name": "desarrolla2/cache",
             "version": "dev-master",
-            "source-reference": "55f33af1db965114c251e0eab12df1af31e6ba6c",
-            "commit-date": "1349370819"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/desarrolla2/Cache.git",
+                "reference": "55f33af1db965114c251e0eab12df1af31e6ba6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/desarrolla2/Cache/zipball/55f33af1db965114c251e0eab12df1af31e6ba6c",
+                "reference": "55f33af1db965114c251e0eab12df1af31e6ba6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "1349370819",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Desarrolla2\\Cache\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel González",
+                    "homepage": "http://desarrolla2.com/"
+                }
+            ],
+            "description": "Provides an cache interface for several adapters",
+            "keywords": [
+                "memcache",
+                "cache",
+                "apc"
+            ]
         },
         {
-            "package": "desarrolla2/rss-client",
+            "name": "desarrolla2/rss-client",
             "version": "dev-master",
-            "source-reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
-            "commit-date": "1349348653"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/desarrolla2/RSSClient.git",
+                "reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/desarrolla2/RSSClient/zipball/42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
+                "reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "ezyang/htmlpurifier": "dev-master",
+                "desarrolla2/cache": "dev-master"
+            },
+            "time": "1349348653",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Desarrolla2\\RSSClient\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel González",
+                    "homepage": "http://desarrolla2.com/"
+                }
+            ],
+            "description": "A independent RSS client manager library.",
+            "keywords": [
+                "rss"
+            ]
         },
         {
-            "package": "ezyang/htmlpurifier",
+            "name": "ezyang/htmlpurifier",
             "version": "dev-master",
-            "source-reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
-            "commit-date": "1347811906"
+            "source": {
+                "type": "git",
+                "url": "git://github.com/ezyang/htmlpurifier.git",
+                "reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ezyang/htmlpurifier/zipball/8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
+                "reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "time": "1347811906",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "library/"
+                ]
+            },
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ]
         }
     ],
     "packages-dev": null,
