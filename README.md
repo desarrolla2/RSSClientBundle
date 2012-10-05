@@ -1,12 +1,10 @@
-RSSClientBundle
-===============
+# RSSClientBundle
 
 Service for provide RSS client in your website, you can automatically add content to your site from your favorite information providers.
 
 build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle)
 
 ## Bundle Installation
-
 
 ### Get the bundle
 
@@ -63,7 +61,7 @@ rss_client:
 
 ### In your controller
 
-Retrieve the service and fetch the content
+Retrieve the service and fetch the content.
 
 ``` php
 <?php
@@ -91,6 +89,7 @@ class NewsController extends Controller
 ```
 
 ### In your view
+
 
 Render the content for your users
 

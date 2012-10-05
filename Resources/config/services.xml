@@ -5,11 +5,18 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="d2_client_rss.class">Desarrolla2\Bundle\RSSClientBundle\Service\RSSClient</parameter>
+        
+        <parameter key="client_rss.sanitizer.class">Desarrolla2\RSSClient\RSSClient\Sanitizer\Sanitizer</parameter>
+        <parameter key="client_rss.class">Desarrolla2\RSSClient\RSSClient</parameter>
+        
     </parameters>
 
     <services>
+        <service id="client_rss.sanitizer" class="%client_rss.sanitizer.class%" >
+            <argument type="string">%kernel.cache_dir%</argument>
+        </service>
         <service id="d2_client_rss" class="%d2_client_rss.class%">
+            <argument type="service" id="client_rss.sanitizer" />
             <call method="setChannels">
                 <argument>%d2_client_rss.channels%</argument>
             </call>

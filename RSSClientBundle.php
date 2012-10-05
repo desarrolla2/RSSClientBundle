@@ -6,4 +6,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class RSSClientBundle extends Bundle
 {
+    
 }
