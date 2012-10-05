@@ -1,46 +1,23 @@
 {
-    "hash": "cbb6a099cb9e1b361cc35893b08a6865",
+    "hash": "345cb3cb820c8a1b21718ad811c9d781",
     "packages": [
         {
-            "name": "ezyang/htmlpurifier",
+            "package": "desarrolla2/cache",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/ezyang/htmlpurifier.git",
-                "reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ezyang/htmlpurifier/zipball/8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
-                "reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "time": "1347811906",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "classmap": [
-                    "library/"
-                ]
-            },
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Edward Z. Yang",
-                    "email": "admin@htmlpurifier.org",
-                    "homepage": "http://ezyang.com"
-                }
-            ],
-            "description": "Standards compliant HTML filter written in PHP",
-            "homepage": "http://htmlpurifier.org/",
-            "keywords": [
-                "html"
-            ]
+            "source-reference": "55f33af1db965114c251e0eab12df1af31e6ba6c",
+            "commit-date": "1349370819"
+        },
+        {
+            "package": "desarrolla2/rss-client",
+            "version": "dev-master",
+            "source-reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
+            "commit-date": "1349348653"
+        },
+        {
+            "package": "ezyang/htmlpurifier",
+            "version": "dev-master",
+            "source-reference": "8a8b123d3322d24d77114dfa767a5eafbe9ff24b",
+            "commit-date": "1347811906"
         }
     ],
     "packages-dev": null,
@@ -49,6 +26,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "ezyang/htmlpurifier": 20
+        "desarrolla2/rss-client": 20
     }
 }
