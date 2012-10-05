@@ -6,7 +6,7 @@
 
     <parameters>
         
-        <parameter key="d2_client_rss.sanitizer.class">Desarrolla2\RSSClient\RSSClient\Sanitizer\Sanitizer</parameter>
+        <parameter key="d2_client_rss.sanitizer.class">Desarrolla2\RSSClient\Sanitizer\Sanitizer</parameter>
         <parameter key="d2_client_rss.class">Desarrolla2\RSSClient\RSSClient</parameter>
         
     </parameters>
