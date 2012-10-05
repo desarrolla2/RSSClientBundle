@@ -48,12 +48,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/desarrolla2/RSSClient.git",
-                "reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8"
+                "reference": "4901d3f2ddd97c0667a50967b3d290846fb74b0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/desarrolla2/RSSClient/zipball/42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
-                "reference": "42ead69c2bfd4b293e0c41157b35f41e4c176ae8",
+                "url": "https://github.com/desarrolla2/RSSClient/zipball/4901d3f2ddd97c0667a50967b3d290846fb74b0d",
+                "reference": "4901d3f2ddd97c0667a50967b3d290846fb74b0d",
                 "shasum": ""
             },
             "require": {
@@ -61,7 +61,7 @@
                 "ezyang/htmlpurifier": "dev-master",
                 "desarrolla2/cache": "dev-master"
             },
-            "time": "1349348653",
+            "time": "1349448074",
             "type": "library",
             "installation-source": "source",
             "autoload": {
