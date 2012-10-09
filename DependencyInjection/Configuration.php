@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('client_rss')
+        $treeBuilder->root('rss_client')
             ->children()                
                 ->arrayNode('channels')                    
                     ->useAttributeAsKey('id')

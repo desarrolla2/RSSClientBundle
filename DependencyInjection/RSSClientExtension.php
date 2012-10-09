@@ -27,12 +27,12 @@ class RSSClientExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
         
-        $container->setParameter('client_rss.channels', $config['channels']);
+        $container->setParameter('rss_client.channels', $config['channels']);
     }
 
     public function getAlias()
     {
-        return 'client_rss';
+        return 'rss_client';
     }
 
 }

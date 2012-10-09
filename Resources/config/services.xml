@@ -6,19 +6,19 @@
 
     <parameters>
         
-        <parameter key="client_rss.sanitizer.class">Desarrolla2\RSSClient\Sanitizer\Sanitizer</parameter>
-        <parameter key="client_rss.class">Desarrolla2\RSSClient\RSSClient</parameter>
+        <parameter key="rss_client.sanitizer.class">Desarrolla2\RSSClient\Sanitizer\Sanitizer</parameter>
+        <parameter key="rss_client.class">Desarrolla2\RSSClient\RSSClient</parameter>
         
     </parameters>
 
     <services>
-        <service id="client_rss.sanitizer" class="%client_rss.sanitizer.class%" >
+        <service id="rss_client.sanitizer" class="%rss_client.sanitizer.class%" >
             <argument type="string">%kernel.cache_dir%</argument>
         </service>
-        <service id="client_rss" class="%client_rss.class%">
-            <argument type="service" id="client_rss.sanitizer" />
+        <service id="rss_client" class="%rss_client.class%">
+            <argument type="service" id="rss_client.sanitizer" />
             <call method="setChannels">
-                <argument>%client_rss.channels%</argument>
+                <argument>%rss_client.channels%</argument>
             </call>
         </service>
     </services>
