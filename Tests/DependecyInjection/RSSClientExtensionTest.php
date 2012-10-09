@@ -27,15 +27,66 @@ class RSSClientExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @test
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder 
      */
-    public function testDefault()
+    protected $container;
+
+    /**
+     * @var \Desarrolla2\Bundle\RSSClientBundle\DependencyInjection\RSSClientExtension 
+     */
+    protected $loader;
+
+    /**
+     * 
+     */
+    public function setUp()
     {
-        $container = new ContainerBuilder();
-        $loader = new RSSClientExtension();
-        $loader->load(array(array()), $container);
-        $this->assertTrue($container->hasDefinition('client_rss.sanitizer'), 'The sanitizer is loaded');
-        $this->assertTrue($container->hasDefinition('client_rss'), 'The RSS client is loaded');
+        $this->container = new ContainerBuilder();
+        $this->loader = new RSSClientExtension();
+        $this->loader->load(array(array()), $this->container);
+    }
+
+    /**
+     * dataProvider
+     * @return array
+     */
+    public function dataProviderTestHasDefinition()
+    {
+        return array(
+            array('client_rss.sanitizer'),
+            array('client_rss'),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderTestHasDefinition
+     */
+    public function testhasDefinition($parameter)
+    {
+        $this->assertTrue($this->container->hasDefinition($parameter), 'The ' . $parameter . ' is loaded');
+    }
+
+    /**
+     * dataProvider
+     * @return array
+     */
+    public function dataProviderTestHasParameter()
+    {
+        return array(
+            array('client_rss.sanitizer.class'),
+            array('client_rss.class'),
+            array('client_rss.channels'),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderTestHasParameter
+     */
+    public function testhasParammeter($parameter)
+    {
+        $this->assertTrue($this->container->hasParameter($parameter), 'The ' . $parameter . ' is loaded');
     }
 
 }
