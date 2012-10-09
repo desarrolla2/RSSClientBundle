@@ -32,7 +32,7 @@ class RSSClientExtension extends Extension
 
     public function getAlias()
     {
-        return 'rss_client';
+        return 'client_rss';
     }
 
 }
