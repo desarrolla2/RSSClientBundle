@@ -1,4 +1,5 @@
 # Configuration files
+/build
 /nbproject/*
 .DS_Store
 Thumbs.db

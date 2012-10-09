@@ -1,5 +1,5 @@
 {
-    "hash": "345cb3cb820c8a1b21718ad811c9d781",
+    "hash": "b26a906857ce8bca8af63e148c6a632f",
     "packages": [
         {
             "name": "desarrolla2/cache",
@@ -7,18 +7,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/desarrolla2/Cache.git",
-                "reference": "55f33af1db965114c251e0eab12df1af31e6ba6c"
+                "reference": "e68acb9a3268fb438bd47119f0fa0abd8e67055a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/desarrolla2/Cache/zipball/55f33af1db965114c251e0eab12df1af31e6ba6c",
-                "reference": "55f33af1db965114c251e0eab12df1af31e6ba6c",
+                "url": "https://github.com/desarrolla2/Cache/zipball/e68acb9a3268fb438bd47119f0fa0abd8e67055a",
+                "reference": "e68acb9a3268fb438bd47119f0fa0abd8e67055a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "1349370819",
+            "time": "1349799952",
             "type": "library",
             "installation-source": "source",
             "autoload": {

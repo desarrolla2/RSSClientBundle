@@ -5,19 +5,18 @@
     "keywords": ["rss", "client"],
     "license": "MIT",
     "minimum-stability": "dev",
-    "authors": [
-        {
-            "name": "Daniel González",
-            "homepage": "http://desarrolla2.com/"
-        }
-    ],
+    "authors": 
+    [{
+        "name": "Daniel González",
+        "homepage": "http://desarrolla2.com/"
+    }],
     "support" : {
         "issues": "https://github.com/desarrolla2/RSSClientBundle/issues"
-    }
-    ,
+    },
     "require": {
         "php": ">=5.3.2",
-         "desarrolla2/rss-client": "dev-master"
+        "symfony/framework-bundle": ">=2.0,<2.2-dev",
+        "desarrolla2/rss-client": "dev-master"
     },
     "autoload": {
         "psr-0": {
