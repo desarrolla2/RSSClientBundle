@@ -1,8 +1,7 @@
 # Configuration files
+/composer.lock
 /build
 /nbproject/*
-.DS_Store
-Thumbs.db
 /vendor
 *.swp
 *.swo
@@ -10,3 +9,5 @@ Thumbs.db
 *.*~
 .vimrc
 .local.*.vimrc
+.DS_Store
+Thumbs.db
