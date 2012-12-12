@@ -53,7 +53,6 @@ class RSSClientExtensionTest extends \PHPUnit_Framework_TestCase
     public function dataProviderTestHasDefinition()
     {
         return array(
-            array('rss_client.sanitizer'),
             array('rss_client'),
         );
     }
@@ -74,7 +73,6 @@ class RSSClientExtensionTest extends \PHPUnit_Framework_TestCase
     public function dataProviderTestHasParameter()
     {
         return array(
-            array('rss_client.sanitizer.class'),
             array('rss_client.class'),
             array('rss_client.channels'),
         );
