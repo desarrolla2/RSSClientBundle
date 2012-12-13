@@ -13,6 +13,9 @@
             <argument type="string">%kernel.cache_dir%</argument>
         </service>
         <service id="rss_client" class="%rss_client.class%">
+            <call method="setSanitizer">
+                <argument type="service" id="rss_client.sanitizer" />
+            </call>   
             <call method="setChannels">
                 <argument>%rss_client.channels%</argument>
             </call>
