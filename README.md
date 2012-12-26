@@ -47,8 +47,10 @@ You need edit your config.yml and add the rss routes you want to get.
 ``` yml
 # app/config/config.yml
 rss_client:
-   channels:
-     
+   cache:
+      adapter: Desarrolla2\Cache\Adapter\NotCache # This is the default
+      ttl:     3600 # This is the default
+   channels:     
       channel_name1:
          - 'http://www.osukaru.es/feed/'
          - 'http://desarrolla2.com/feed/'
@@ -58,6 +60,7 @@ rss_client:
          - 'http://www.symfony.es/feed/'
 ```
 
+The cache option is completely optional. If not specified the shown default take effect.
 
 ### In your controller
 
