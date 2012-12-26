@@ -5,21 +5,38 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>        
-        <parameter key="rss_client.class">Desarrolla2\RSSClient\RSSClient</parameter>     
-        <parameter key="rss_client.sanitizer.class">Desarrolla2\RSSClient\Sanitizer\Sanitizer</parameter>   
+        <parameter key="rss_client.class">Desarrolla2\RSSClient\RSSCacheClient</parameter>
+        <parameter key="rss_client.cache.class">Desarrolla2\Cache\Cache</parameter>        
+        <parameter key="rss_client.cache.adapter.class">Desarrolla2\Cache\Adapter\AdapterInterface</parameter>
+        <parameter key="rss_client.cache.adapter.factory.class">Desarrolla2\Cache\Adapter\CacheAdapterFactory</parameter>
+        <parameter key="rss_client.sanitizer.class">Desarrolla2\RSSClient\Sanitizer\Sanitizer</parameter>
     </parameters>
 
     <services>
+        <service id="rss_client.cache.adapter.factory"
+                 class="%rss_client.cache.adapter.class%"
+                 factory-class="%rss_client.cache.adapter.factory.class%"
+                 factory-method="factory">
+            <argument>%rss_client.cache%</argument>
+        </service>
+        <service id="rss_client.cache" class="%rss_client.cache.class%">
+            <call method="setAdapter">
+                <argument type="service" id='rss_client.cache.adapter.factory' />
+            </call>
+        </service>
         <service id="rss_client.sanitizer" class="%rss_client.sanitizer.class%" >
             <argument type="string">%kernel.cache_dir%</argument>
         </service>
         <service id="rss_client" class="%rss_client.class%">
             <call method="setSanitizer">
-                <argument type="service" id="rss_client.sanitizer" />
+                <argument type="service" id='rss_client.sanitizer' />
             </call>   
             <call method="setChannels">
                 <argument>%rss_client.channels%</argument>
             </call>
+            <call method="setCache">
+               <argument type="service" id="rss_client.cache" />
+            </call>            
         </service>
     </services>
 </container>
