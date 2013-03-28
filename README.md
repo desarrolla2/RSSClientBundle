@@ -13,7 +13,7 @@ Add to your `/composer.json` file :
 ``` json
     "require": {
         ...       
-        "desarrolla2/rss-client-bundle": "dev-master" 
+        "desarrolla2/rss-client-bundle": "2.*" 
     },
 ````
         
@@ -113,10 +113,6 @@ Render the content for your users
     </section>
 {% endblock %}
 ```
-
-## Coming soon
-
-* This client only was tested with RSS2.0 other format not guaranteed.
 
 ## Contact
 
