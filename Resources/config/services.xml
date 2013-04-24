@@ -8,7 +8,7 @@
         <parameter key="rss_client.class">Desarrolla2\RSSClient\Client\RSSCache</parameter>
         <parameter key="rss_client.cache.class">Desarrolla2\Cache\Cache</parameter>        
         <parameter key="rss_client.cache.adapter.class">Desarrolla2\Cache\Adapter\AdapterInterface</parameter>
-        <parameter key="rss_client.cache.adapter.factory.class">Desarrolla2\Cache\Adapter\CacheAdapterFactory</parameter>
+        <parameter key="rss_client.cache.adapter.factory.class">Desarrolla2\Cache\Adapter\AdapterFactory</parameter>
     </parameters>
 
     <services>
