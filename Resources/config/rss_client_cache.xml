@@ -18,6 +18,10 @@
             <call method="setAdapter">
                 <argument type="service" id="desarrolla2.cache.adapter" />
             </call>
+            <call method="setOption">
+                <argument type="string">ttl</argument>
+                <argument type="string">%rss_client.cache.ttl%</argument>                    
+            </call>
         </service> 
         <service id="rss_client.cache" class="%rss_client.cache.class%">
             <call method="setCache">
