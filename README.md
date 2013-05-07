@@ -16,7 +16,7 @@ Add to your `/composer.json` file :
 ``` json
     "require": {
         ...       
-        "desarrolla2/rss-client-bundle": "dev-master" 
+        "desarrolla2/rss-client-bundle": "2.*" 
     },
 ````
         
