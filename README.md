@@ -1,8 +1,11 @@
 # RSSClientBundle
 
+[![knpbundles.com](http://knpbundles.com/desarrolla2/RSSClientBundle/badge)](http://knpbundles.com/desarrolla2/RSSClientBundle)
+
 Service for provide RSS client in your website, you can automatically add content to your site from your favorite information providers.
 
-build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle)
+build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle) 
+
 
 ## Bundle Installation
 
@@ -48,7 +51,6 @@ You need edit your config.yml and add the rss routes you want to get.
 # app/config/config.yml
 rss_client:
    cache:
-      adapter: Desarrolla2\Cache\Adapter\NotCache # This is the default
       ttl:     3600 # This is the default
    channels:     
       channel_name1:

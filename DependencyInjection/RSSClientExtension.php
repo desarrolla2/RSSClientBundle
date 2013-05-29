@@ -25,9 +25,10 @@ class RSSClientExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        $loader->load('rss_client.xml');
+        $loader->load('rss_client_cache.xml');
         
-        $container->setParameter('rss_client.cache', $config['cache']);
+        $container->setParameter('rss_client.cache.ttl', $config['cache']['ttl']);        
         $container->setParameter('rss_client.channels', $config['channels']);
     }
 
