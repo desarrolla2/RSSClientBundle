@@ -2,9 +2,9 @@
 
 [![knpbundles.com](http://knpbundles.com/desarrolla2/RSSClientBundle/badge)](http://knpbundles.com/desarrolla2/RSSClientBundle)
 
-Service for provide RSS client in your website, you can automatically add content to your site from your favorite information providers.
+[![Latest Stable Version](https://poser.pugx.org/desarrolla2/rss-client-bundle/v/stable.png)](https://packagist.org/packages/desarrolla2/rss-client-bundle) [![Total Downloads](https://poser.pugx.org/desarrolla2/rss-client-bundle/downloads.png)](https://packagist.org/packages/desarrolla2/rss-client-bundle) [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle)
 
-build status : [![Build Status](https://secure.travis-ci.org/desarrolla2/RSSClientBundle.png)](http://travis-ci.org/desarrolla2/RSSClientBundle) 
+Service for provide RSS client in your website, you can automatically add content to your site from your favorite information providers.
 
 
 ## Bundle Installation
@@ -29,9 +29,9 @@ composer update
 ### Register the bundle
 
 ``` php
+// app/AppKernel.php
 <?php
 
-  // app/AppKernel.php
   public function registerBundles()
   {
     return array(
@@ -119,3 +119,7 @@ Render the content for your users
 ## Contact
 
 You can contact with me on [twitter](https://twitter.com/desarrolla2).
+
+## More Info
+
+See [RSSClient](https://github.com/desarrolla2/RSSClient).

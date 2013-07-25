@@ -5,12 +5,13 @@
     "keywords": ["rss", "client"],
     "license": "MIT",
     "minimum-stability": "dev",
-    "authors": 
-    [{
-        "name": "Daniel González",
-        "homepage": "http://desarrolla2.com/"
-    }],
-    "support" : {
+    "authors": [
+        {
+            "name": "Daniel González",
+            "homepage": "http://desarrolla2.com/"
+        }
+    ],
+    "support": {
         "issues": "https://github.com/desarrolla2/RSSClientBundle/issues"
     },
     "require": {

@@ -3,5 +3,6 @@
 /build
 /nbproject/
 /vendor
+/.idea
 *~
 *.swp
