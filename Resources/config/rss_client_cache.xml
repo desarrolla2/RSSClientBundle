@@ -27,6 +27,9 @@
             <call method="setCache">
                 <argument type="service" id="desarrolla2.cache" />
             </call>
+            <call method="setChannels">
+                <argument>%rss_client.channels%</argument>
+            </call>            
         </service>
     </services>
 </container>
