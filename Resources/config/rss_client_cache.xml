@@ -4,32 +4,32 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>        
+    <parameters>
         <parameter key="rss_client.cache.class">Desarrolla2\RSSClient\Cache\RSSClient</parameter>
-        <parameter key="desarrolla2.cache.class">Desarrolla2\Cache\Cache</parameter>        
+        <parameter key="desarrolla2.cache.class">Desarrolla2\Cache\Cache</parameter>
         <parameter key="desarrolla2.cache.adapter.class">Desarrolla2\Cache\Adapter\File</parameter>
     </parameters>
 
-    <services>        
+    <services>
         <service id="desarrolla2.cache.adapter" class="%desarrolla2.cache.adapter.class%">
             <argument type="string">%kernel.cache_dir%/rss-client-bundle</argument>
-        </service>                
+        </service>
         <service id="desarrolla2.cache" class="%desarrolla2.cache.class%">
             <call method="setAdapter">
                 <argument type="service" id="desarrolla2.cache.adapter" />
             </call>
             <call method="setOption">
                 <argument type="string">ttl</argument>
-                <argument type="string">%rss_client.cache.ttl%</argument>                    
+                <argument type="string">%rss_client.cache.ttl%</argument>
             </call>
-        </service> 
+        </service>
         <service id="rss_client.cache" class="%rss_client.cache.class%">
             <call method="setCache">
                 <argument type="service" id="desarrolla2.cache" />
             </call>
             <call method="setChannels">
                 <argument>%rss_client.channels%</argument>
-            </call>            
+            </call>
         </service>
     </services>
 </container>
