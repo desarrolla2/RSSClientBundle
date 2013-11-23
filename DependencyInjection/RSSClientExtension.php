@@ -3,6 +3,7 @@
 namespace Desarrolla2\Bundle\RSSClientBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -30,6 +31,15 @@ class RSSClientExtension extends Extension
 
         $container->setParameter('rss_client.cache.ttl', $config['cache']['ttl']);
         $container->setParameter('rss_client.channels', $config['channels']);
+
+        /* @var $client \Symfony\Component\DependencyInjection\Definition */
+        /* @var $cached_client \Symfony\Component\DependencyInjection\Definition */
+        $client = $container->getDefinition('rss_client');
+        $cached_client = $container->getDefinition('rss_client.cache');
+        foreach($config['processors'] as $processor_service_id) {
+          $client->addMethodCall('pushProcessor', array(new Reference($processor_service_id)));
+          $cached_client->addMethodCall('pushProcessor', array(new Reference($processor_service_id)));
+        }
     }
 
     public function getAlias()
