@@ -64,6 +64,15 @@ rss_client:
 
 The cache option is completely optional. If not specified the shown default take effect.
 
+#### Optionally: configure custom processors
+
+If you want to use [custom processors](https://github.com/desarrolla2/RSSClient/blob/master/doc/custom-process.md) to extract additional information from a feed, also add the "processors" key pointing to services that implement the ```ProcessorInterface```.
+
+```yml
+rss_client:
+   processors: ["my_service_id", "my_other_service_id"]
+```
+
 ### In your controller
 
 Retrieve the service and fetch the content.
