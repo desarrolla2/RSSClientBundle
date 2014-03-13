@@ -8,6 +8,7 @@
         <parameter key="rss_client.cache.class">Desarrolla2\RSSClient\Cache\RSSClient</parameter>
         <parameter key="desarrolla2.cache.class">Desarrolla2\Cache\Cache</parameter>
         <parameter key="desarrolla2.cache.adapter.class">Desarrolla2\Cache\Adapter\File</parameter>
+        <parameter key="desarrolla2.cache.warmer.class">Desarrolla2\Bundle\RSSClientBundle\Cache\CacheWarmer</parameter>
     </parameters>
 
     <services>
@@ -22,6 +23,10 @@
                 <argument type="string">ttl</argument>
                 <argument type="string">%rss_client.cache.ttl%</argument>
             </call>
+        </service>
+        <service id="desarrolla2.cache.warmer" class="%desarrolla2.cache.warmer.class%">
+            <argument type="service" id="desarrolla2.cache.adapter"></argument>
+            <tag name="kernel.cache_warmer" />
         </service>
         <service id="rss_client.cache" class="%rss_client.cache.class%">
             <call method="setCache">
